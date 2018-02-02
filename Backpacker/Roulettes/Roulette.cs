@@ -31,13 +31,13 @@ namespace Backpacker.Roulettes
         {
             double sumOfWieghts = Options.Sum(entry => entry.Value);
 
-            int rouletteNumber = Random.Next(0, (int) sumOfWieghts);
+            double rouletteNumber = Random.NextDouble() * sumOfWieghts;
 
-            T selected = Options.First().Key;
+            T selected = Options.Last().Key;
 
             foreach (KeyValuePair<T, double> keyValuePair in Options)
             {
-                rouletteNumber -= (int) keyValuePair.Value;
+                rouletteNumber -= keyValuePair.Value;
 
                 if (rouletteNumber <= 0)
                 {
@@ -45,11 +45,6 @@ namespace Backpacker.Roulettes
                     break;
                 }
                 
-            }
-
-            if (selected == null)
-            {
-                Console.WriteLine("test");
             }
 
             return selected;

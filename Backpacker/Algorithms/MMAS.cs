@@ -96,20 +96,6 @@ namespace Backpacker.Algorithms
         {
             ICity currentCity = ant.Current;
 
-            if (currentCity == null)
-            {
-                Console.WriteLine("Error on " + ant.Name + " visited: " + ant.Visited.Count);
-                
-                foreach (ICity city in ant.Visited)
-                {
-                    Console.WriteLine("Visited: " + city.Name + " in " + city.Region.Name + ", " + city.Country.Name);
-                }
-            }
-            else
-            {
-                Console.WriteLine("Working....");
-            }
-
             ICountry currentCountry = currentCity.Country;
 
             IRoulette<ICountry> countryRoulette;
