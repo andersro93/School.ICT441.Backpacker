@@ -20,5 +20,7 @@ namespace Backpacker.Colony
         ConcurrentBag<IAnt> Ants { get; set; }
 
         IColony CreateAnts(int amount);
+
+        IAnt TraverseUntilConvergence();
     }
 }

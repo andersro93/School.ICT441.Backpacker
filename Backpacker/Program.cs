@@ -13,7 +13,7 @@ namespace Backpacker
 {
     class Program
     {
-        private static int CitiesToVisit = 3;
+        private static int CitiesToVisit = 5;
         
         private static int Ants = 1000000;
         
@@ -54,8 +54,15 @@ namespace Backpacker
             colony.CreateAnts(Ants);
 
             Console.WriteLine($"Colony created!");
+            
+            Console.WriteLine($"----------------------------------------");
+            Console.WriteLine($"Starting the walk");
 
-
+            IAnt bestAnt = colony.TraverseUntilConvergence();
+            
+            Console.WriteLine($"Walk done");
+            Console.WriteLine($"----------------------------------------");
+            Console.WriteLine($"Best ant {bestAnt.Name}");
         }
     }
 }

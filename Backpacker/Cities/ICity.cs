@@ -1,9 +1,10 @@
 ﻿using Backpacker.Countries;
+using Backpacker.Interfaces;
 using Backpacker.Regions;
 
 namespace Backpacker.Cities
 {
-    public interface ICity
+    public interface ICity : IRouletteOption
     {
         string Name { get; set; }
         

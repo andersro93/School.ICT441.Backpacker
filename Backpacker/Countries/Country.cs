@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using Backpacker.Interfaces;
 using Backpacker.Regions;
 
 namespace Backpacker.Countries

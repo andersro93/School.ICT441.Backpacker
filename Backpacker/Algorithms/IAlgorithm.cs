@@ -8,6 +8,10 @@ namespace Backpacker.Algorithms
     {
         IDatabase Database { get; set; }
         
-        ICity GetNextCity(IAnt ant);
+        IAnt BestAnt { get; set; }
+        
+        void MoveToNextCity(IAnt ant);
+
+        void AntDoneWalking(IAnt ant);
     }
 }

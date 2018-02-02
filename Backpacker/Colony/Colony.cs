@@ -1,8 +1,10 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using Backpacker.Algorithms;
 using Backpacker.Ants;
 using Backpacker.Cities;
+using Backpacker.Exceptions;
 
 namespace Backpacker.Colony
 {
@@ -35,22 +37,48 @@ namespace Backpacker.Colony
             return this;
         }
 
+        public IAnt TraverseUntilConvergence()
+        {
+            try
+            {
+                foreach (IAnt ant in Ants)
+                {
+                    ant.Prepare();
+                    
+                    for(int visitedCities = 0; visitedCities < CitiesToVisit; visitedCities++)
+                    {
+                        ant.Walk();
+                    }
+                    
+                    ant.Done();
+                }
+            }
+            catch (ConvergedException)
+            {
+                Console.WriteLine("Convergence exception caught!");
+            }
+
+            return Algorithm.BestAnt;
+        }
+
         public Colony()
         {
             Ants = new ConcurrentBag<IAnt>();
         }
 
-        protected IAnt CreateAnt(string Name)
+        protected IAnt CreateAnt(string name)
         {
-            return new Ant
+            IAnt ant = new Ant
             {
-	    	Name = Name,
+                Name = name,
                 Algorithm = Algorithm,
                 Colony = this,
                 Current = Start,
                 Destination = Destination,
                 CitiesToVisit = CitiesToVisit
             };
+            
+            return ant;
         }
     }
 }

@@ -42,6 +42,7 @@ namespace Backpacker.Parser
         {
             ConcurrentBag<string[]> Lines = new ConcurrentBag<string[]>();
             
+            Console.WriteLine("Starting file read to memory");
             using (StreamReader reader = new StreamReader(path))
             {
                 while (!reader.EndOfStream)
@@ -49,42 +50,55 @@ namespace Backpacker.Parser
                     Lines.Add(reader.ReadLine().Split(CsvDelimeter));
                 }
             }
+            Console.WriteLine("Done File read to memory");
             
             Database = new Database.Database();
 
+            Console.WriteLine("Starting parsing lines to database");
             Parallel.ForEach(Lines, _parallelOptions, line => AddLineToDatabase(line));
+            Console.WriteLine("Dome parsing lines to database");
 
-            Parallel.ForEach(Database.Countries.Values, _parallelOptions, country =>
+            Console.WriteLine("Starting structuring model");
+            foreach(ICountry country in Database.Countries.Values)
             {
-                Parallel.ForEach(country.Regions.Values, _parallelOptions, region =>
+                foreach(IRegion region in country.Regions.Values)
                 {
                     Database.Regions.Add(region);
 
-                    Parallel.ForEach(region.Cities.Values, _parallelOptions, city =>
+                    foreach(ICity city in region.Cities.Values)
                     {
                         Database.Cities.Add(city);
-                    });
-                });
-            });
+                    }
+                }
+            }
+            Console.WriteLine("Done structuring model");
 
             return Database;
         }
 
         protected void AddLineToDatabase(string[] line)
         {
-            ICountry country = new Country();
-            country.Name = line[FieldCountryName];
+            ICountry country = new Country
+            {
+                Name = line[FieldCountryName]
+            };
 
             country = Database.Countries.GetOrAdd(line[FieldCountryName], country);
 
-            IRegion region = new Region();
-            region.Name = line[FieldRegionName];
-            region.Country = country;
+            IRegion region = new Region
+            {
+                Name = line[FieldRegionName],
+                Country = country
+            };
 
             region = country.Regions.GetOrAdd(line[FieldRegionName], region);
 
-            ICity city = new City();
-            city.Name = line[FieldCityName];
+            ICity city = new City
+            {
+                Name = line[FieldCityName],
+                Country = country,
+                Region = region
+            };
 
             try
             {
@@ -102,9 +116,6 @@ namespace Backpacker.Parser
                 return;
             }
             
-            city.Region = region;
-            city.Country = country;
-
             region.Cities.GetOrAdd(line[FieldCityName], city);
         }
     }

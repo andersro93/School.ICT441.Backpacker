@@ -1,6 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using Backpacker.Cities;
 using Backpacker.Countries;
+using Backpacker.Interfaces;
 
 namespace Backpacker.Regions
 {

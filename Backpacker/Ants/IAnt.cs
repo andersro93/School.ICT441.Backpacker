@@ -21,6 +21,10 @@ namespace Backpacker.Ants
 
         List<ICity> Visited { get; set; }
 
+        void Prepare();
+
         void Walk();
+
+        void Done();
     }
 }

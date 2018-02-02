@@ -1,4 +1,5 @@
 ﻿using Backpacker.Countries;
+using Backpacker.Interfaces;
 using Backpacker.Regions;
 
 namespace Backpacker.Cities

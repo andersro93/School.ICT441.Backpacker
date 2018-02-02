@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Backpacker.Algorithms;
 using Backpacker.Cities;
 using Backpacker.Colony;
@@ -26,12 +27,19 @@ namespace Backpacker.Ants
             Visited = new List<ICity>();
         }
 
-        public void Walk()
+        public void Prepare()
         {
-            ICity nextCity = Algorithm.GetNextCity(this);
             
-            Visited.Add(nextCity);
-            Current = nextCity;
+        }
+
+        public void Walk()
+        {           
+            Algorithm.MoveToNextCity(this);
+        }
+
+        public void Done()
+        {
+            Algorithm.AntDoneWalking(this);
         }
     }
 }
